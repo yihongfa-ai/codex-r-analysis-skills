@@ -1,0 +1,4 @@
+interface:
+  display_name: "SSCI R Formal Analysis"
+  short_description: "Formal R analysis with routed support skills."
+  default_prompt: "Use $ssci-r-analysis-writing to orchestrate formal R analysis, route to supporting skills as needed, produce SSCI Methods/Results, and back up Markdown reports to Obsidian."

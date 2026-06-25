@@ -1,0 +1,4 @@
+interface:
+  display_name: "Exploratory R Analysis"
+  short_description: "Explore raw data and candidate R models."
+  default_prompt: "Use $exploratory-r-analysis to inspect raw data, propose cleaning, infer variable-role candidates, compare candidate R/statistical models, and produce Chinese Markdown reports."
