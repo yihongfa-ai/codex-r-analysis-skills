@@ -7,24 +7,35 @@ Two Codex skills for R-based social-science analysis:
 
 The two skills are designed as separate but complementary workflows. Use the exploratory skill to inspect raw data, infer candidate variable roles, compare feasible model families, and produce Chinese exploratory reports. Use the SSCI skill after the research question, variable roles, and modeling plan are sufficiently defined.
 
+## Required User Inputs
+
+At minimum, users should provide:
+
+1. Raw data.
+2. A variable dictionary, concept-measurement notes, questionnaire, codebook, or other material that explains what the variables mean.
+
+For `exploratory-r-analysis`, only raw data is enough to start. If no variable dictionary or measurement material is available, the skill will infer candidate labels, roles, and measurement directions from the dataset and clearly mark them as tentative.
+
+For `ssci-r-analysis-writing`, raw data plus variable meaning or measurement information is expected. The formal workflow works best when the user also provides the planned analysis method, hypotheses or research questions, and variable roles such as outcome, predictors, controls, mediators, moderators, weights, clusters, fixed effects, or IDs.
+
 ## Repository Layout
 
 ```text
 .
-├── exploratory-r-analysis/
-│   ├── SKILL.md
-│   ├── agents/
-│   │   └── openai.yaml
-│   └── references/
-│       ├── method-library.md
-│       └── workflow.md
-└── ssci-r-analysis-writing/
-    ├── SKILL.md
-    ├── agents/
-    │   └── openai.yaml
-    └── references/
-        ├── method-library.md
-        └── workflow.md
++-- exploratory-r-analysis/
+|   +-- SKILL.md
+|   +-- agents/
+|   |   +-- openai.yaml
+|   +-- references/
+|       +-- method-library.md
+|       +-- workflow.md
++-- ssci-r-analysis-writing/
+    +-- SKILL.md
+    +-- agents/
+    |   +-- openai.yaml
+    +-- references/
+        +-- method-library.md
+        +-- workflow.md
 ```
 
 ## Installation
