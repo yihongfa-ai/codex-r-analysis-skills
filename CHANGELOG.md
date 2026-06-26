@@ -2,6 +2,7 @@
 
 ## 0.1.1 - 2026-06-26
 
+- Added a README method/model coverage table based on the method library.
 - Added `DEPENDENCIES.md` with local software setup, IRkernel/Jupyter instructions, companion skill links, and R package lists.
 - Linked the dependency guide from `README.md`.
 - Clarified that Jupyter should remain running during live notebook work.

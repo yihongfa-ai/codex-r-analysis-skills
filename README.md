@@ -20,6 +20,36 @@ For `exploratory-r-analysis`, only raw data is enough to start. If no variable d
 
 For `ssci-r-analysis-writing`, raw data plus variable meaning or measurement information is expected. The formal workflow works best when the user also provides the planned analysis method, hypotheses or research questions, and variable roles such as outcome, predictors, controls, mediators, moderators, weights, clusters, fixed effects, or IDs.
 
+## Method and Model Coverage
+
+The skills include a method-routing library for common social-science and SSCI-style quantitative workflows. The main model categories include:
+
+| Category | Examples |
+| --- | --- |
+| Descriptive statistics and data screening | Missingness checks, descriptive tables, scale basics, distribution checks. |
+| Standard regression and GLM | OLS, logistic regression, Poisson/negative binomial models, robust standard errors. |
+| Interactions, moderation, nonlinear effects, and marginal effects | Interaction terms, centered predictors, predicted values, marginal effects. |
+| Missing data and multiple imputation | Missing-data diagnosis, imputation planning, pooled estimates. |
+| Complex surveys, weights, and survey designs | Survey weights, stratification, clustering, design-based inference. |
+| Psychometrics, IRT, latent classes, and measurement invariance | Reliability, EFA/CFA preparation, IRT, latent profile/class models. |
+| SEM, CFA, path models, and mediation | Measurement models, structural paths, mediation, fit indices. |
+| Multilevel, longitudinal, and growth models | Random effects, hierarchical models, repeated measures, growth curves. |
+| Panel, DiD, IV, RDD, and modern causal inference | Fixed effects, event studies, instrumental variables, regression discontinuity, matching, weighting. |
+| Time series and interrupted time series | Time ordering, lag structure, intervention effects, segmented trends. |
+| Spatial and geographic models | Spatial joins, spatial dependence, spatial regression, mapping. |
+| Network analysis and ERGM/TERGM | Network descriptives, ERGM, TERGM, node/edge attributes. |
+| QCA and set relations | Calibration, truth tables, necessity/sufficiency analysis. |
+| Meta-analysis | Effect-size synthesis, heterogeneity, robust variance. |
+| Bayesian models | Bayesian regression, Bayesian SEM, posterior summaries. |
+| Interpretable machine learning | Regularized models, random forests, gradient boosting, feature importance, SHAP-style interpretation. |
+| Special outcomes and data structures | Count, ordinal, beta, compositional, survival, joint, and zero-inflated models. |
+| Robustness, sensitivity, multiple testing, and power | Robustness checks, sensitivity analysis, multiple-comparison control, power analysis. |
+
+See the full method libraries for details:
+
+- [`exploratory-r-analysis/references/method-library.md`](./exploratory-r-analysis/references/method-library.md)
+- [`ssci-r-analysis-writing/references/method-library.md`](./ssci-r-analysis-writing/references/method-library.md)
+
 ## Repository Layout
 
 ```text
