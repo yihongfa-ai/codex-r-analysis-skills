@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.1 - 2026-06-26
+
+- Added `DEPENDENCIES.md` with local software setup, IRkernel/Jupyter instructions, companion skill links, and R package lists.
+- Linked the dependency guide from `README.md`.
+- Clarified that Jupyter should remain running during live notebook work.
+
 ## 0.1.0 - 2026-06-25
 
 - Initial public release draft.

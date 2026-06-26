@@ -7,6 +7,8 @@ Two Codex skills for R-based social-science analysis:
 
 The two skills are designed as separate but complementary workflows. Use the exploratory skill to inspect raw data, infer candidate variable roles, compare feasible model families, and produce Chinese exploratory reports. Use the SSCI skill after the research question, variable roles, and modeling plan are sufficiently defined.
 
+See [Dependencies](./DEPENDENCIES.md) for required local software, IRkernel/Jupyter setup, recommended companion skills, and R package lists.
+
 ## Required User Inputs
 
 At minimum, users should provide:
