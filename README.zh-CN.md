@@ -22,6 +22,38 @@
 
 对于 `ssci-r-analysis-writing`，通常需要原始数据和变量含义/测量信息。正式分析工作流最好还同时提供计划使用的分析方法、假设或研究问题，以及变量角色，例如 outcome、predictors、controls、mediators、moderators、weights、clusters、fixed effects 或 IDs。
 
+## 示例 Prompts
+
+只有原始数据时启动探索性分析：
+
+```text
+使用 $exploratory-r-analysis 检查这个原始数据集，评估数据是否可用，识别清洗风险，推断候选变量角色，并提出可行的 R 模型家族。请在完成清洗评估后暂停，不要直接修改 working data。
+```
+
+有变量字典、问卷或 codebook 时启动探索性分析：
+
+```text
+使用 $exploratory-r-analysis 分析这个数据集和问卷/codebook。请建立变量字典，推断候选 outcome、predictors、controls、mediators 和 moderators，并推荐哪些模型路径适合进入正式研究。
+```
+
+启动正式 SSCI 风格分析：
+
+```text
+使用 $ssci-r-analysis-writing 运行正式、可复现的 R 分析。因变量是 [因变量]，核心自变量是 [核心自变量]，控制变量是 [控制变量]。请先估计计划中的 baseline model，透明记录模型规格探索，并在我选择最终规格后再准备英文 SSCI Methods/Results。
+```
+
+已有明确方法时启动正式分析：
+
+```text
+使用 $ssci-r-analysis-writing 进行 [OLS/logistic/SEM/DiD/IV/RDD/multilevel/QCA/ERGM] 分析。请使用我提供的原始数据和变量字典，创建项目文件夹结构，清洗数据但不要覆盖 raw files，输出论文风格表格、300 dpi 图形，并保存复现日志。
+```
+
+检查既有正式分析和稳健性：
+
+```text
+使用 $ssci-r-analysis-writing 检查这个已有正式分析项目。请评估 baseline model、变量编码、缺失值处理规则、诊断、稳健性检查和表格是否足以支撑 SSCI Methods/Results。
+```
+
 ## 方法与模型覆盖范围
 
 这些 skills 内置了面向社会科学和 SSCI 风格定量研究的方法路由库。主要模型类别包括：

@@ -2,6 +2,7 @@
 
 ## 0.1.2 - 2026-06-27
 
+- Added bilingual example prompts to the English and Chinese README files.
 - Added a Chinese README (`README.zh-CN.md`).
 - Added language-switch links to the English and Chinese README files.
 

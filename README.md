@@ -22,6 +22,38 @@ For `exploratory-r-analysis`, only raw data is enough to start. If no variable d
 
 For `ssci-r-analysis-writing`, raw data plus variable meaning or measurement information is expected. The formal workflow works best when the user also provides the planned analysis method, hypotheses or research questions, and variable roles such as outcome, predictors, controls, mediators, moderators, weights, clusters, fixed effects, or IDs.
 
+## Example Prompts
+
+Exploratory analysis with only raw data:
+
+```text
+Use $exploratory-r-analysis to inspect this raw dataset, assess whether it is usable, identify cleaning risks, infer candidate variable roles, and propose feasible R model families. Pause after the cleaning assessment before modifying any working data.
+```
+
+Exploratory analysis with a codebook or questionnaire:
+
+```text
+Use $exploratory-r-analysis with this dataset and questionnaire/codebook. Build a variable dictionary, infer candidate outcomes, predictors, controls, mediators, and moderators, then recommend which model paths are suitable for formal research.
+```
+
+Formal SSCI-style analysis:
+
+```text
+Use $ssci-r-analysis-writing to run a formal reproducible R analysis. The outcome is [outcome variable], the focal predictors are [predictors], and the controls are [controls]. Estimate the planned baseline model first, document specification exploration transparently, and prepare English SSCI Methods/Results after I choose the final specification.
+```
+
+Formal analysis with a planned method:
+
+```text
+Use $ssci-r-analysis-writing for a [OLS/logistic/SEM/DiD/IV/RDD/multilevel/QCA/ERGM] analysis. Use the raw data and variable dictionary provided, create the project folder structure, clean the data without overwriting raw files, produce manuscript-style tables and 300 dpi figures, and save reproducibility logs.
+```
+
+Robustness and model-specification review:
+
+```text
+Use $ssci-r-analysis-writing to review the existing formal analysis project. Check whether the baseline model, variable coding, missing-data rule, diagnostics, robustness checks, and tables are sufficient for an SSCI Methods/Results section.
+```
+
 ## Method and Model Coverage
 
 The skills include a method-routing library for common social-science and SSCI-style quantitative workflows. The main model categories include:
