@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.2 - 2026-06-27
+
+- Added a Chinese README (`README.zh-CN.md`).
+- Added language-switch links to the English and Chinese README files.
+
 ## 0.1.1 - 2026-06-26
 
 - Added a README method/model coverage table based on the method library.

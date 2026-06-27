@@ -1,5 +1,7 @@
 # Codex R Analysis Skills
 
+[English](./README.md) | [中文](./README.zh-CN.md)
+
 Two Codex skills for R-based social-science analysis:
 
 - `exploratory-r-analysis`: exploratory analysis before the research design is fixed.
