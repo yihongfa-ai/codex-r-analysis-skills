@@ -110,8 +110,11 @@ Pause twice unless the user explicitly asks for a fully automatic run:
    - For each selected model family, run one complete exploratory analysis: model, diagnostics, fit/accuracy, key effects/features, figures, tables, and Chinese interpretation.
    - Save 300 dpi `.tif` figures under `output/figures/<project>/`.
    - Save tables under `output/tables/<project>/` and machine-readable copies when useful; table titles, labels, notes, and supporting documentation should be Chinese or bilingual when feasible.
-   - Generate an `.ipynb` notebook under `notebooks/exploratory/<project>/` with commented code and result interpretation.
-   - Save reproducible `.R` and/or `.qmd` files under `R/scripts/<project>/` and `output/reports/<project>/`.
+   - Notebook deliverables require two distinct notebooks. A scheduler-only notebook does not satisfy the reproducible-notebook requirement.
+   - Use a notebook-first reproducibility route when feasible: run the project in Anaconda/base through the Jupyter `ir` R kernel, create notebooks with `jupyter-notebook`, and execute/verify them with `hamelnb` when a live server is available.
+   - Generate `<project>_dispatch.ipynb` under `notebooks/exploratory/<project>/` as the main exploratory execution entrypoint. It may call project R scripts, including `R/scripts/<project>/00_master.R`, as backend orchestration code.
+   - Generate `<project>_complete_reproducible.ipynb` under `notebooks/exploratory/<project>/` as a standalone, analysis-only exploratory backup. This notebook is the substantive reproducibility artifact, not a second dispatcher or an index of scripts. It must contain all code needed to reproduce cleaning checks, variable-role discovery, selected exploratory models, figures, tables, and logged outputs without calling other notebooks or external R scripts. It must be split into focused cells, with clear section headings, detailed functional introductions explaining what each part does, detailed code comments, visible outputs from every code cell, and Chinese interpretation/explanation below major results. It must not include final report writing, QMD rendering, Word generation, `officer`/`flextable` document assembly, or `source()` calls.
+   - Save reproducible `.R` and/or `.qmd` files under `R/scripts/<project>/` and `output/reports/<project>/`. The default analysis QMD must be generated from `<project>_complete_reproducible.ipynb`, not from `<project>_dispatch.ipynb`; it must keep semantic functional section headings from the complete notebook when they identify retained analysis code, and omit explanation-only Markdown, functional-introduction paragraphs, result-interpretation Markdown, and interpretation-only code cells/outputs such as `cat("解释...")` or comments headed `# 解释`. Retained R chunks must match the retained analysis code cells line-for-line, and retained analysis outputs should be preserved as static output blocks/images without adding or copying result-interpretation prose.
 
 5. Complete exploratory report.
    - Write a Chinese Markdown report with data usability, cleaning decisions, variable-role candidates, model results, figures/tables, and recommendations.
@@ -155,6 +158,18 @@ Use a route-first approach for figures:
 - Structural diagrams such as model maps, variable-role maps, workflows, and handoff diagrams: use `markdown-mermaid-writing` first.
 - QMD/HTML figure accessibility: use `alt-text` for figure descriptions/alt text.
 - Mechanism/conceptual schematics: use `scientific-schematics` only when Mermaid is insufficient.
+
+## Notebook and QMD Consistency
+
+- Treat `<project>_dispatch.ipynb` as a scheduler only. QMD files must not source from, convert from, or otherwise depend on the dispatcher notebook.
+- Treat `<project>_complete_reproducible.ipynb` as the source of truth for exploratory data-analysis code, but keep its human-facing explanations out of QMD. The analysis QMD must preserve retained analysis code cells, in the same order, with identical code text, after excluding explanation-only cells.
+- Do not satisfy the notebook requirement with only a dispatcher notebook. The complete reproducibility notebook must be readable as a standalone analysis document with complete code, section-level explanations, comments, outputs, and result interpretation.
+- Treat the saved notebook outputs as the source of truth for analysis outputs. The analysis QMD must preserve stdout/stderr text and display outputs from retained analysis cells, usually as static output blocks and image files copied from the notebook output data. Explanation-only Markdown, functional-introduction paragraphs, and interpretation-only code/output cells must not appear in the QMD.
+- If the QMD preserves notebook outputs statically, set YAML-level execution so the QMD does not re-run the chunks and produce divergent or duplicated outputs. Do not use chunk-local options that alter the R code text.
+- Do not add or copy prose explaining or interpreting the copied outputs. Section headings are allowed; section introductions and result-by-result explanations belong in the complete reproducibility notebook, not in the QMD.
+- QMD section headings must be semantic and functional, inherited from the nearest relevant heading in `<project>_complete_reproducible.ipynb`, such as `数据清洗检查`, `描述统计`, `候选模型比较`, `模型诊断`, or `变量重要性`. Never generate headings such as `Code Cell 1`, `Code Cell 2`, `Chunk 1`, or other ordinal/mechanical labels. If a retained code cell has no preceding functional heading, first add a functional heading to the complete notebook or derive a concise heading from the cell purpose before writing the QMD. If several retained chunks belong to one section, keep the functional heading once or use meaningful functional subheadings, not numbered code-cell headings.
+- A valid QMD-generation run must report: retained notebook analysis-code-cell count, omitted explanation-cell count, QMD R-chunk count, retained output-object count, omitted explanation-output count, and whether every extracted QMD code chunk and copied output object matches the corresponding retained complete-notebook analysis code cell/output object, and whether QMD headings are functional rather than mechanical.
+- If the QMD is intended as a formal handoff/report file rather than an analysis reproducibility file, use a distinct filename such as `<project>_handoff_report.qmd`; do not let that report QMD replace the code-equivalent analysis QMD.
 
 ## Package Policy
 

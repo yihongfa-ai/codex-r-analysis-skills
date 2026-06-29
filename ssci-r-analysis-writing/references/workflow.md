@@ -491,13 +491,22 @@ Notebook:
 
 - Use R/IRkernel for R analyses.
 - Store under `notebooks/projects/<project>/`.
-- Include setup, import, cleaning, formal descriptives, baseline models, model-adjustment summary, selected final models, figures, interpretation, and session info.
-- Execute with `jupyter nbconvert --to notebook --execute --inplace` when possible.
+- Notebook deliverables require two distinct notebooks. A scheduler-only notebook does not satisfy the reproducible-notebook requirement.
+- Create `<project>_dispatch.ipynb` as the main execution entrypoint. It may call `R/scripts/<project>/00_master.R` and related scripts as backend orchestration code.
+- Create `<project>_complete_reproducible.ipynb` as a standalone, analysis-only backup. This notebook is the substantive reproducibility artifact, not a second dispatcher or an index of scripts. It must contain all code needed to reproduce setup, import, cleaning, formal descriptives, baseline models, model-adjustment summaries, selected final models, figures, tables, and session info without calling other notebooks or external R scripts.
+- Split the complete reproducibility notebook into many focused cells with clear section headings, a functional introduction at the start of each section explaining what that part does, detailed code comments, visible outputs from every code cell, and interpretation/explanation below major results.
+- Do not put formal writing, Word generation, QMD rendering, `officer`/`flextable` document construction, or `source()` calls in the complete reproducibility notebook.
+- Execute both notebooks with the Anaconda/base Jupyter `ir` R kernel when possible; use `hamelnb restart-run-all --save-outputs` for live verification when available.
 
 QMD:
 
 - Generate source even when Quarto is not installed.
-- Keep it aligned with the latest revision and R scripts.
+- The default analysis QMD must be derived from `<project>_complete_reproducible.ipynb`, not from `<project>_dispatch.ipynb`.
+- The complete reproducibility notebook contains explanations for human review; the QMD must omit explanation-only Markdown, functional-introduction paragraphs, result-interpretation Markdown, and interpretation-only code cells/outputs such as `cat("解释...")`, comments headed `# 解释`, or cells whose purpose is only to explain a prior result.
+- Keep retained QMD R chunks as an exact line-for-line copy of the retained complete reproducibility notebook analysis code cells, in the same order. Do not insert chunk-local `#|` options into these code chunks when that would make the code differ from the notebook; use YAML-level execution options instead.
+- Preserve retained analysis stdout/stderr and display outputs as static QMD output blocks/images so the QMD analysis-output view matches the notebook analysis-output view.
+- Do not add or copy result-interpretation prose below copied outputs. Section headings are allowed; section introductions and result-by-result explanations belong in the complete reproducibility notebook, not the QMD.
+- Run a code-and-output equivalence audit after generation: compare retained notebook analysis-code-cell count, omitted explanation-cell count, QMD R-chunk count, retained output-object count, omitted explanation-output count, code hashes/text, output markers, and copied image hashes.
 - Route to `quarto-authoring` for parameterized reports, cross-references, multi-format rendering, `_quarto.yml`, or render debugging.
 
 
@@ -511,7 +520,7 @@ Use `quarto-authoring` when QMD work requires more than saving a source file:
 - multi-format output such as HTML, DOCX, PDF, or manuscript appendix;
 - render failures, path issues, bibliography/citation configuration, or figure/table numbering.
 
-Keep QMD titles, headings, captions, notes, and explanatory prose Chinese or bilingual unless the section is final SSCI Methods/Results prose. If Quarto is unavailable, still save a valid `.qmd` source and report that rendering was not run.
+Keep QMD titles, headings, captions, notes, and explanatory prose Chinese or bilingual unless the section is final SSCI Methods/Results prose. If rendering is part of the requested deliverable and Quarto CLI is unavailable, install or configure Quarto CLI first when permission and network access allow it; only fall back to saving a valid `.qmd` source and reporting that rendering was not run when installation/configuration is blocked.
 
 Use `testing-r-packages` only when code has become reusable enough to warrant tests. Good candidates are variable dictionary generation, missing-code recoding, scale scoring, reverse coding, model-table extraction, and figure export helpers. Use `r-package-development` only when the project should be organized as a small internal R package or package-like library; do not turn one-off analyses into packages by default.
 
@@ -552,8 +561,9 @@ If no Obsidian vault root is configured, report that the Obsidian backup was ski
 Before final response:
 
 - Run the revision master script with `Rscript --vanilla`.
-- Execute the notebook if possible.
-- Render QMD/Quarto outputs when Quarto is available and rendering is part of the requested deliverable; otherwise confirm that valid `.qmd` source exists.
+- Execute both the dispatcher notebook and the complete reproducibility notebook if possible.
+- For analysis QMD generated from the complete reproducibility notebook, verify code-and-output equivalence for retained analysis cells: retained notebook analysis-code-cell count equals QMD R-chunk count; every QMD R chunk matches the corresponding retained notebook analysis code cell line-for-line; copied stdout/stderr and display outputs match the saved retained analysis outputs; explanation-only cells and outputs are omitted and counted.
+- Render QMD/Quarto outputs when rendering is part of the requested deliverable. If Quarto CLI is missing, install or configure it first when permission and network access allow it; otherwise confirm that valid `.qmd` source exists and report why rendering could not be run.
 - Verify DOCX files with `zipfile.is_zipfile()` or another archive check.
 - Confirm `.tif` figures exist and are 300 dpi when figure metadata is readable.
 - For manuscript-facing figures, confirm the figure route was appropriate (`nature-figure`, `scientific-visualization`, local R, Mermaid, or schematic) and that figure contract/QA notes were recorded.

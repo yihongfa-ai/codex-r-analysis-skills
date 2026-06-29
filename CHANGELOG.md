@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.3 - 2026-06-29
+
+- Synced updated `exploratory-r-analysis` and `ssci-r-analysis-writing` skill instructions.
+- Added stricter notebook-first reproducibility guidance with separate dispatcher and complete reproducible notebooks.
+- Added notebook-to-QMD consistency rules, including code/output equivalence checks and functional section-heading requirements.
+
 ## 0.1.2 - 2026-06-27
 
 - Added bilingual example prompts to the English and Chinese README files.

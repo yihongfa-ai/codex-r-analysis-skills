@@ -280,8 +280,12 @@ Notebook requirements:
 
 - store under `notebooks/exploratory/<project>/`;
 - use R/IRkernel when possible;
-- include commented setup, data checks, cleaning, variable-role inference, model map, model runs, figures, tables, and Chinese interpretation;
-- execute with `jupyter nbconvert --to notebook --execute --inplace` when possible.
+- require two distinct notebooks. A scheduler-only notebook does not satisfy the reproducible-notebook requirement;
+- create `<project>_dispatch.ipynb` as the main exploratory execution entrypoint. It may call `R/scripts/<project>/00_master.R` and related scripts as backend orchestration code;
+- create `<project>_complete_reproducible.ipynb` as a standalone, analysis-only exploratory backup. This notebook is the substantive reproducibility artifact, not a second dispatcher or an index of scripts. It must contain all code needed to reproduce setup, data checks, cleaning, variable-role inference, model map, selected model runs, figures, tables, and session/log outputs without calling other notebooks or external R scripts;
+- split the complete reproducibility notebook into focused cells with clear section headings, a functional introduction at the start of each section explaining what that part does, detailed code comments, visible outputs from every code cell, and Chinese interpretation/explanation below major results;
+- do not put final report writing, QMD rendering, Word generation, `officer`/`flextable` document construction, or `source()` calls in the complete reproducibility notebook;
+- execute both notebooks with the Anaconda/base Jupyter `ir` R kernel when possible; use `hamelnb restart-run-all --save-outputs` for live verification when available.
 
 ## 8. Interpretable Machine Learning
 
@@ -365,7 +369,9 @@ QA before final response:
 - Separate exploratory diagnostics from manuscript-candidate figures in the report.
 ## 9.2 Quarto, DAG, and Reusable-Code Routes
 
-Use `quarto-authoring` when exploratory `.qmd` work needs parameterized reports, cross-references, `_quarto.yml`, multi-format rendering, or render debugging. If Quarto is not installed, still save a valid `.qmd` source and note that rendering was not run.
+Use `quarto-authoring` when exploratory `.qmd` work needs parameterized reports, cross-references, `_quarto.yml`, multi-format rendering, or render debugging. If rendering is part of the requested exploratory deliverable and Quarto CLI is unavailable, install or configure Quarto CLI first when permission and network access allow it; only fall back to saving a valid `.qmd` source and reporting that rendering was not run when installation/configuration is blocked.
+
+The default analysis QMD must be derived from `<project>_complete_reproducible.ipynb`, not from `<project>_dispatch.ipynb`. The complete reproducibility notebook contains explanations for human review; the QMD must omit explanation-only Markdown, functional-introduction paragraphs, result-interpretation Markdown, and interpretation-only code cells/outputs such as `cat("解释...")`, comments headed `# 解释`, or cells whose purpose is only to explain a prior result. Its retained R chunks must be an exact line-for-line copy of the retained complete reproducibility notebook analysis code cells, in the same order. Do not insert chunk-local `#|` options when they would make the code differ from the notebook; use YAML-level execution options instead. Preserve retained analysis stdout/stderr and display outputs as static QMD output blocks/images so the QMD analysis-output view matches the notebook analysis-output view. Do not add or copy result-interpretation prose below copied outputs. After generation, run a code-and-output equivalence audit comparing retained notebook analysis-code-cell count, omitted explanation-cell count, QMD R-chunk count, retained output-object count, omitted explanation-output count, code hashes/text, output markers, and copied image hashes.
 
 Use `dag-development` before causal model recommendations when the dataset suggests treatment/exposure variables, time ordering, confounders, mediators, moderators, instruments, policies, interventions, or causal language. The exploratory output should distinguish:
 
@@ -450,8 +456,9 @@ Verify source/destination SHA256 hashes when practical. If the sandbox cannot wr
 Before final response:
 
 - Run the R master script with `Rscript --vanilla` when scripts are ready.
-- Execute the notebook when Jupyter/kernel are available.
-- Render QMD/Quarto outputs when Quarto is available and rendering is part of the requested exploratory deliverable; otherwise confirm that valid `.qmd` source exists.
+- Execute both the dispatcher notebook and the complete reproducibility notebook when Jupyter/kernel are available.
+- For analysis QMD generated from the complete reproducibility notebook, verify code-and-output equivalence for retained analysis cells: retained notebook analysis-code-cell count equals QMD R-chunk count; every QMD R chunk matches the corresponding retained notebook analysis code cell line-for-line; copied stdout/stderr and display outputs match the saved retained analysis outputs; explanation-only cells and outputs are omitted and counted.
+- Render QMD/Quarto outputs when rendering is part of the requested exploratory deliverable. If Quarto CLI is missing, install or configure it first when permission and network access allow it; otherwise confirm that valid `.qmd` source exists and report why rendering could not be run.
 - Confirm cleaned data are under `data/working/<project>/` and raw data were not modified.
 - Confirm selected figures exist as `.tif` and are 300 dpi when metadata is readable.
 - For promoted manuscript-candidate figures, confirm the route was appropriate (`nature-figure`, `scientific-visualization`, local R, Mermaid, or schematic) and that figure-purpose/QA notes were recorded.
